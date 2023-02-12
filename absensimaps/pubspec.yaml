@@ -52,6 +52,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.4.48
   curved_navigation_bar: ^1.0.3
   flutter_launcher_icons: ^0.11.0
+  url_launcher: ^6.1.9
+  flutter_initicon: ^3.0.0+1
   # flutter_device_locale: ^0.3.4+1
 
 dev_dependencies:

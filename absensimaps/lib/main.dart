@@ -7,10 +7,13 @@ import 'package:absensimaps/pages/Homepage/controller/page_index_admin.dart';
 import 'package:absensimaps/pages/Homepage/page_admin.dart';
 import 'package:absensimaps/pages/Homepage/page_user.dart';
 import 'package:absensimaps/pages/Profile%20Page/View/profile_page_user.dart';
+import 'package:absensimaps/pages/Splash%20Screen/Splash.dart';
 import 'package:absensimaps/pages/Update%20Password/View/view_change_password.dart';
+import 'package:absensimaps/pages/Update%20Password/View/view_change_password_user.dart';
 import 'package:absensimaps/pages/Update%20Profile/View/view_update_profile.dart';
 import 'package:absensimaps/pages/Login/login_page_real.dart';
 import 'package:absensimaps/pages/Register/register_page.dart';
+import 'package:absensimaps/pages/Update%20Profile/View/view_update_profile_user.dart';
 import 'package:absensimaps/pages/sidebar/sidebar_layout.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,37 +30,64 @@ void main() async {
   final pageC = Get.put(PageIndexController(), permanent: true);
   final pageD = Get.put(ControllerAllAbsensi(), permanent: true);
 
-  runApp(GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const LoginPageReal(),
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const LoginPageReal(),
-        ), // Login
-        GetPage(name: "/register", page: () => RegisterPage()),
-        GetPage(name: "/landingPage", page: () => SidebarLayout()),
-        GetPage(
-            name: '/pageUser',
-            page: () => PageUser(),
-            transition: Transition.fadeIn),
-        GetPage(
-            name: '/pageAdmin',
-            page: () => const PageAdmin(),
-            transition: Transition.fadeIn),
-        GetPage(
-            name: '/profilPage',
-            page: () => ProfilePage(),
-            transition: Transition.fadeIn),
-        GetPage(
-            name: '/profilPageUser',
-            page: () => ProfilePageUser(),
-            transition: Transition.fadeIn),
-        GetPage(name: '/changePassword', page: () => ChangePasswordView()),
-        GetPage(name: '/updateProfile', page: () => UpdateProfileView()),
-        GetPage(name: '/detailAbsensi', page: () => ViewDetailAbsensi()),
-        GetPage(name: '/allAbsensi', page: () => ViewAllAbsensi()),
+  runApp(MyApp());
+}
 
-        // GetPage(name: "/landingPage", page: () => LandingPage()),
-      ]));
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: Future.delayed(Duration(seconds: 4)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen();
+          } else {
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: const LoginPageReal(),
+              getPages: [
+                GetPage(
+                  name: '/',
+                  page: () => const LoginPageReal(),
+                ), // Login
+                GetPage(name: "/register", page: () => RegisterPage()),
+                GetPage(name: "/landingPage", page: () => SidebarLayout()),
+                GetPage(
+                    name: '/pageUser',
+                    page: () => PageUser(),
+                    transition: Transition.fadeIn),
+                GetPage(
+                    name: '/pageAdmin',
+                    page: () => const PageAdmin(),
+                    transition: Transition.fadeIn),
+                GetPage(
+                    name: '/profilPage',
+                    page: () => ProfilePage(),
+                    transition: Transition.fadeIn),
+                GetPage(
+                    name: '/profilPageUser',
+                    page: () => ProfilePageUser(),
+                    transition: Transition.fadeIn),
+                GetPage(
+                    name: '/changePassword', page: () => ChangePasswordView()),
+                GetPage(
+                    name: '/changePasswordUser',
+                    page: () => ChangePasswordViewUser()),
+                GetPage(
+                    name: '/updateProfile', page: () => UpdateProfileView()),
+                GetPage(
+                    name: '/updateProfileUser',
+                    page: () => UpdateProfileViewUser()),
+                GetPage(
+                    name: '/detailAbsensi', page: () => ViewDetailAbsensi()),
+                GetPage(name: '/allAbsensi', page: () => ViewAllAbsensi()),
+
+                // GetPage(name: "/landingPage", page: () => LandingPage()),
+              ],
+            );
+          }
+        });
+  }
 }

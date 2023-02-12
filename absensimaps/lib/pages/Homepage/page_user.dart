@@ -11,9 +11,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
 import 'controller/home_controller.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -27,11 +29,17 @@ class PageUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          openWhatsapp(
+              context: context,
+              number: '6288226906520',
+              text:
+                  'Halo Kak, Saya Mengalami Kendala Pada Aplikasi Smart Presence');
+        },
+        child: Image.asset("assets/images/robot.png"),
+      ),
       backgroundColor: const Color.fromRGBO(218, 220, 255, 1),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.amber,
-      //   title: const Text("Page User"),
-      // ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: streamUser(),
         builder: (context, snapshot) {
@@ -43,44 +51,47 @@ class PageUser extends StatelessWidget {
 
           if (snapshot.hasData) {
             Map<String, dynamic> user = snapshot.data!.data()!;
-            String defaulImage =
-                "https://ui-avatars.com/api/?name=${user['nama']}";
+            // String defaulImage =
+            //     "https://ui-avatars.com/api/?name=${user['nama']}";
 
             return ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 75,
-                      height: 75,
-                      color: Colors.red,
-                      child: Image.network(
-                        user["profile"] != null ? user["profile"] : defaulImage,
-                        fit: BoxFit.cover,
+                // Container 1
+                Container(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Initicon(
+                          text: "${user['nama']}",
+                          backgroundColor: Colors.green,
+                          size: 60,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        const Text(
-                          "Welcome,",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          width: 200,
-                          child: Text(user["address"] != null
-                              ? "${user['address']}"
-                              : "Belum ada lokasi"),
-                        ),
-                      ],
-                    )
-                  ],
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          Text(
+                            "Welcome, ${user['nama']}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            width: 200,
+                            child: Text(user["address"] != null
+                                ? "${user['address']}"
+                                : "Belum ada lokasi"),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -89,14 +100,14 @@ class PageUser extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: const Color.fromRGBO(143, 148, 251, 1),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "${user['job']}",
+                        "${user['nama'].toString().toUpperCase()}",
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -112,9 +123,9 @@ class PageUser extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        "${user['nama']}",
+                        "${user['job']}",
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -126,7 +137,7 @@ class PageUser extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: const Color.fromRGBO(143, 148, 251, 1),
                   ),
                   child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                       stream: streamTodayAbsensi(),
@@ -156,7 +167,7 @@ class PageUser extends StatelessWidget {
                             Container(
                               width: 2,
                               height: 40,
-                              color: Colors.grey,
+                              color: Colors.black,
                             ),
                             Column(
                               // ignore: prefer_const_literals_to_create_immutables
@@ -174,10 +185,10 @@ class PageUser extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Divider(
-                  color: Colors.grey[300],
-                  thickness: 2,
-                ),
+                // Divider(
+                //   color: Colors.black,
+                //   thickness: 2,
+                // ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,6 +251,8 @@ class PageUser extends StatelessWidget {
                                 child: Container(
                                   padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromRGBO(143, 148, 251, 1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Column(
@@ -294,18 +307,6 @@ class PageUser extends StatelessWidget {
           }
         },
       ),
-      // bottomNavigationBar: ConvexAppBar(
-      //   style: TabStyle.fixed,
-      //   backgroundColor: Colors.grey.shade900,
-      //   // ignore: prefer_const_literals_to_create_immutables
-      //   items: [
-      //     const TabItem(icon: Icons.home, title: 'Homes'),
-      //     const TabItem(icon: Icons.fingerprint, title: 'Absensi'),
-      //     const TabItem(icon: Icons.people, title: 'Profile'),
-      //   ],
-      //   initialActiveIndex: pageCUser.pageIndexUser.value,
-      //   onTap: (int i) => pageCUser.changePageUser(i),
-      // ),
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.slowMiddle,
         index: 0,
@@ -321,5 +322,33 @@ class PageUser extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void openWhatsapp(
+    {required BuildContext context,
+    required String text,
+    required String number}) async {
+  var whatsapp = '6288226906420'; //+92xx enter like this
+  var whatsappURlAndroid = "whatsapp://send?phone=" + whatsapp + "&text=$text";
+  var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
+  if (Platform.isAndroid) {
+    // for iOS phone only
+    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+      await launchUrl(Uri.parse(
+        whatsappURlAndroid,
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Whatsapp not installed")));
+    }
+  } else {
+    // android , web
+    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+      await launchUrl(Uri.parse(whatsappURlAndroid));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Whatsapp not installed")));
+    }
   }
 }

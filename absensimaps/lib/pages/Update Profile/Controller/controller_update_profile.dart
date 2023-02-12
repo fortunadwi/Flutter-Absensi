@@ -14,12 +14,16 @@ Future<void> UpdateProfile(String uid) async {
   if (nimUC.text.isNotEmpty &&
       namaUC.text.isNotEmpty &&
       emailUC.text.isNotEmpty) {
-    isLoading.value = true;
+    // isLoading.value = true;
     try {
       await firestore.collection("mahasiswa").doc(uid).update({
+        "nim": nimUC.text,
         "nama": namaUC.text,
+        "email": emailUC.text,
       });
-      isLoading.value = false;
+
+      // isLoading.value = false;
+      Get.back();
       Get.snackbar("Berhasil", "Berhasil Update Profile");
     } catch (e) {
       Get.snackbar("Terjadi Kesalahan", "Gagal Update Profile");

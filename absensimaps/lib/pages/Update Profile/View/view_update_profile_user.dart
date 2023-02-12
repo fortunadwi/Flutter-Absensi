@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Homepage/controller/BottomBar.dart';
 
-class UpdateProfileView extends StatelessWidget {
+class UpdateProfileViewUser extends StatelessWidget {
   final pageC = Get.find<PageIndexController>();
   // final AsyncSnapshot<dynamic> user = Get.arguments;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -118,14 +118,15 @@ class UpdateProfileView extends StatelessWidget {
               ),
               bottomNavigationBar: CurvedNavigationBar(
                 animationCurve: Curves.slowMiddle,
-                index: 1,
+                index: 2,
                 onTap: (index) {
-                  BottomBarChange(index);
+                  BottomBarChangeUser(index);
                 },
                 backgroundColor: const Color.fromRGBO(218, 220, 255, 1),
                 color: const Color.fromRGBO(143, 148, 251, 1),
                 items: const <Widget>[
                   Icon(Icons.home, size: 30),
+                  Icon(Icons.fingerprint, size: 30),
                   Icon(Icons.settings, size: 30),
                 ],
               ),

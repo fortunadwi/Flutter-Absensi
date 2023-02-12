@@ -8,7 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
 
 class ProfilePageUser extends StatelessWidget {
   final pageCUser = Get.put(PageIndexControllerUser());
@@ -17,6 +20,17 @@ class ProfilePageUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          openWhatsapp(
+              context: context,
+              number: '6288226906520',
+              text:
+                  'Halo Kak, Saya Mengalami Kendala Pada Aplikasi Smart Presence');
+        },
+        child: Image.asset("assets/images/robot.png"),
+      ),
+
       backgroundColor: const Color.fromRGBO(218, 220, 255, 1),
       // appBar: AppBar(
       //   title: Text("Page Profile"),
@@ -36,21 +50,21 @@ class ProfilePageUser extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          color: Colors.white,
-                          width: 100,
-                          height: 100,
-                          child: Image.network(
-                            "https://ui-avatars.com/api/?name=${user['nama']}",
-                            fit: BoxFit.cover,
+                  Container(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(3),
+                          child: Initicon(
+                            text: "${user['nama']}",
+                            backgroundColor: Colors.green,
+                            size: 60,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -69,16 +83,23 @@ class ProfilePageUser extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+                  Divider(
+                    height: 20,
+                    thickness: 1,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ListTile(
                     onTap: () {
-                      Get.toNamed('/updateProfile', arguments: user);
+                      Get.toNamed('/updateProfileUser', arguments: user);
                     },
                     leading: const Icon(Icons.person),
                     title: const Text("Update Profile"),
                   ),
                   ListTile(
                     onTap: () {
-                      Get.toNamed('/changePassword');
+                      Get.toNamed('/changePasswordUser');
                     },
                     leading: const Icon(Icons.vpn_key),
                     title: const Text("Change Password"),
@@ -106,22 +127,10 @@ class ProfilePageUser extends StatelessWidget {
               );
             }
           }),
-      // bottomNavigationBar: ConvexAppBar(
-      //   style: TabStyle.fixed,
-      //   backgroundColor: Colors.grey.shade900,
-      //   // ignore: prefer_const_literals_to_create_immutables
-      //   items: [
-      //     const TabItem(icon: Icons.home, title: 'Homeh'),
-      //     const TabItem(icon: Icons.fingerprint, title: 'Absensi'),
-      //     const TabItem(icon: Icons.people, title: 'Profile'),
-      //   ],
-      //   initialActiveIndex: pageCUser.pageIndexUser.value,
-      //   onTap: (int i) => pageCUser.changePageUser(i),
-      // ),
 
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.slowMiddle,
-        index: 1,
+        index: 2,
         onTap: (index) {
           BottomBarChangeUser(index);
         },
@@ -134,5 +143,33 @@ class ProfilePageUser extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void openWhatsapp(
+    {required BuildContext context,
+    required String text,
+    required String number}) async {
+  var whatsapp = '6288226906420'; //+92xx enter like this
+  var whatsappURlAndroid = "whatsapp://send?phone=" + whatsapp + "&text=$text";
+  var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
+  if (Platform.isAndroid) {
+    // for iOS phone only
+    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+      await launchUrl(Uri.parse(
+        whatsappURlAndroid,
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Whatsapp not installed")));
+    }
+  } else {
+    // android , web
+    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+      await launchUrl(Uri.parse(whatsappURlAndroid));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Whatsapp not installed")));
+    }
   }
 }

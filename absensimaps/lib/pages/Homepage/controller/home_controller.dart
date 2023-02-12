@@ -38,3 +38,8 @@ Stream<DocumentSnapshot<Map<String, dynamic>>> streamTodayAbsensi() async* {
       .doc(todayID)
       .snapshots();
 }
+
+Stream streamAll() async* {
+  // String uid = auth.currentUser!.uid;
+  yield* firestore.collection("mahasiswa").snapshots();
+}

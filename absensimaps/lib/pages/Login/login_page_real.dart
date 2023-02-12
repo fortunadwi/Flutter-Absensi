@@ -27,75 +27,17 @@ class LoginPageReal extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                width: 300,
+                width: 380,
                 height: 300,
                 margin: const EdgeInsets.only(top: 100),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/images/background.png'),
+                        image: AssetImage('assets/images/fresh.png'),
                         opacity: 68.0,
                         fit: BoxFit.cover)),
-                // child: Stack(
-                //   children: <Widget>[
-                //     Positioned(
-                //       left: 30,
-                //       width: 80,
-                //       height: 200,
-                //       child: FadeAnimation(
-                //           1,
-                //           Container(
-                //             decoration: const BoxDecoration(
-                //                 image: DecorationImage(
-                //                     image: AssetImage(
-                //                         'assets/images/light-1.png'))),
-                //           )),
-                //     ),
-                //     Positioned(
-                //       left: 140,
-                //       width: 80,
-                //       height: 150,
-                //       child: FadeAnimation(
-                //           1.3,
-                //           Container(
-                //             decoration: const BoxDecoration(
-                //                 image: DecorationImage(
-                //                     image: AssetImage(
-                //                         'assets/images/light-2.png'))),
-                //           )),
-                //     ),
-                //     Positioned(
-                //       right: 40,
-                //       top: 40,
-                //       width: 80,
-                //       height: 150,
-                //       child: FadeAnimation(
-                //           1.5,
-                //           Container(
-                //             decoration: const BoxDecoration(
-                //                 image: DecorationImage(
-                //                     image:
-                //                         AssetImage('assets/images/clock.png'))),
-                //           )),
-                //     ),
-                //     Positioned(
-                //       child: FadeAnimation(
-                //           1.6,
-                //           Container(
-                //             margin: const EdgeInsets.only(top: 50),
-                //             child: const Center(
-                //               child: Text(
-                //                 "Login",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                     color: Colors.white,
-                //                     fontSize: 40,
-                //                     fontWeight: FontWeight.bold),
-                //               ),
-                //             ),
-                //           )),
-                //     )
-                //   ],
-                // ),
+              ),
+              SizedBox(
+                height: 30,
               ),
               Padding(
                 padding: const EdgeInsets.all(30.0),
@@ -181,7 +123,7 @@ class LoginPageReal extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Lupa Password? "),
+                        const Text("Forgot Password? "),
                         FadeAnimation(
                             1.5,
                             InkWell(
@@ -189,7 +131,7 @@ class LoginPageReal extends StatelessWidget {
                                 ResetPassword();
                               },
                               child: const Text(
-                                "Pulihkan Disini",
+                                "Reset Here",
                                 style: TextStyle(
                                     color: Color.fromRGBO(143, 148, 251, 1),
                                     fontSize: 12),

@@ -156,7 +156,7 @@ class RegisterPage extends StatelessWidget {
                                   // Get.back();
                                 },
                                 child: const Text(
-                                  "Kembali",
+                                  "Back",
                                   style: TextStyle(
                                       color: Color.fromRGBO(143, 148, 251, 1),
                                       fontSize: 12),

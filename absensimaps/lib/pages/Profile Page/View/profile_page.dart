@@ -3,17 +3,12 @@
 import 'package:absensimaps/controller/login_func.dart';
 import 'package:absensimaps/pages/Homepage/controller/BottomBar.dart';
 import 'package:absensimaps/pages/Homepage/controller/page_index_admin.dart';
-import 'package:absensimaps/pages/Homepage/page_admin.dart';
 import 'package:absensimaps/pages/Sidebar%20Profile/Controller%20Profile/controller_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 
-// Profile Page Admin
 class ProfilePage extends StatelessWidget {
   final pageC = Get.find<PageIndexController>();
   ProfilePage({super.key});
@@ -21,17 +16,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          openWhatsapp(
-              context: context,
-              number: '6288226906520',
-              text:
-                  'Halo Kak, Saya Mengalami Kendala Pada Aplikasi Smart Presence');
-        },
-        child: Image.asset("assets/images/robot.png"),
-      ),
       backgroundColor: const Color.fromRGBO(218, 220, 255, 1),
+      // appBar: AppBar(
+      //   title: Text("Page Profile"),
+      //   backgroundColor: Colors.grey.shade900,
+      //   centerTitle: true,
+      // ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: streamUser(),
           builder: (context, snapshot) {
@@ -45,21 +35,20 @@ class ProfilePage extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(3),
-                          child: Initicon(
-                            text: "${user['nama']}",
-                            backgroundColor: Colors.green,
-                            size: 60,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipOval(
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          child: Image.network(
+                            "https://ui-avatars.com/api/?name=${user['nama']}",
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -115,6 +104,7 @@ class ProfilePage extends StatelessWidget {
               );
             }
           }),
+
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.slowMiddle,
         index: 1,
@@ -128,34 +118,18 @@ class ProfilePage extends StatelessWidget {
           Icon(Icons.settings, size: 30),
         ],
       ),
+      // bottomNavigationBar: ConvexAppBar(
+      //   style: TabStyle.fixed,
+      //   backgroundColor: Colors.grey.shade900,
+      //   // ignore: prefer_const_literals_to_create_immutables
+      //   items: [
+      //     const TabItem(icon: Icons.home, title: 'Home'),
+      //     const TabItem(icon: Icons.fingerprint, title: 'Absensi'),
+      //     const TabItem(icon: Icons.people, title: 'Profile'),
+      //   ],
+      //   initialActiveIndex: pageC.pageIndex.value,
+      //   onTap: (int i) => pageC.changePage(i),
+      // ),
     );
-  }
-}
-
-void openWhatsapp(
-    {required BuildContext context,
-    required String text,
-    required String number}) async {
-  var whatsapp = '6288226906420'; //+92xx enter like this
-  var whatsappURlAndroid = "whatsapp://send?phone=" + whatsapp + "&text=$text";
-  var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
-  if (Platform.isAndroid) {
-    // for iOS phone only
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(
-        whatsappURlAndroid,
-      ));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
-  } else {
-    // android , web
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(whatsappURlAndroid));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
   }
 }

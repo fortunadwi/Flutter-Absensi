@@ -3,10 +3,8 @@
 // import 'package:absensimaps/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../animation/FadeAnimation.dart';
 import '../../controller/register_func.dart';
-import 'dart:io' show Platform;
 
 // Login Page Styling
 class RegisterPage extends StatelessWidget {
@@ -20,16 +18,6 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            openWhatsapp(
-                context: context,
-                number: '6288226906520',
-                text:
-                    'Halo Kak, Saya Mengalami Kendala Pada Aplikasi Smart Presence');
-          },
-          child: Image.asset("assets/images/robot.png"),
-        ),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -55,6 +43,67 @@ class RegisterPage extends StatelessWidget {
                           image: AssetImage('assets/images/background.png'),
                           opacity: 68.0,
                           fit: BoxFit.fill)),
+                  // child: Stack(
+                  //   children: <Widget>[
+                  //     Positioned(
+                  //       left: 30,
+                  //       width: 80,
+                  //       height: 200,
+                  //       child: FadeAnimation(
+                  //           1,
+                  //           Container(
+                  //             decoration: const BoxDecoration(
+                  //                 image: DecorationImage(
+                  //                     image: AssetImage(
+                  //                         'assets/images/light-1.png'))),
+                  //           )),
+                  //     ),
+                  //     Positioned(
+                  //       left: 140,
+                  //       width: 80,
+                  //       height: 150,
+                  //       child: FadeAnimation(
+                  //           1.3,
+                  //           Container(
+                  //             decoration: const BoxDecoration(
+                  //                 image: DecorationImage(
+                  //                     image: AssetImage(
+                  //                         'assets/images/light-2.png'))),
+                  //           )),
+                  //     ),
+                  //     Positioned(
+                  //       right: 40,
+                  //       top: 40,
+                  //       width: 80,
+                  //       height: 150,
+                  //       child: FadeAnimation(
+                  //           1.5,
+                  //           Container(
+                  //             decoration: const BoxDecoration(
+                  //                 image: DecorationImage(
+                  //                     image:
+                  //                         AssetImage('assets/images/clock.png'))),
+                  //           )),
+                  //     ),
+                  //     Positioned(
+                  //       child: FadeAnimation(
+                  //           1.6,
+                  //           Container(
+                  //             margin: const EdgeInsets.only(top: 50),
+                  //             child: const Center(
+                  //               child: Text(
+                  //                 "Register",
+                  //                 textAlign: TextAlign.center,
+                  //                 style: TextStyle(
+                  //                     color: Colors.white,
+                  //                     fontSize: 40,
+                  //                     fontWeight: FontWeight.bold),
+                  //               ),
+                  //             ),
+                  //           )),
+                  //     )
+                  //   ],
+                  // ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -175,31 +224,3 @@ class RegisterPage extends StatelessWidget {
 }
 
 // End Of Login Page Styling
-
-void openWhatsapp(
-    {required BuildContext context,
-    required String text,
-    required String number}) async {
-  var whatsapp = '6288226906420'; //+92xx enter like this
-  var whatsappURlAndroid = "whatsapp://send?phone=" + whatsapp + "&text=$text";
-  var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
-  if (Platform.isAndroid) {
-    // for iOS phone only
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(
-        whatsappURlAndroid,
-      ));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
-  } else {
-    // android , web
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(whatsappURlAndroid));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
-  }
-}

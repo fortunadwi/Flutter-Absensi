@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-// Bottom Bar Admin
 void BottomBarChange(index) {
   switch (index) {
     case 1:
@@ -23,7 +22,6 @@ void BottomBarChange(index) {
   }
 }
 
-// Bottom Bar User
 Future<void> BottomBarChangeUser(index) async {
   switch (index) {
     case 1:
@@ -40,7 +38,7 @@ Future<void> BottomBarChangeUser(index) async {
 
         // Cek Distance Jarak Antara 2 Koordinat
         double distance = Geolocator.distanceBetween(
-            -6.1929451, 106.569068, position.latitude, position.longitude);
+            -6.1930289, 106.5668906, position.latitude, position.longitude);
 
         // Absen
         await absensi(position, address, distance);

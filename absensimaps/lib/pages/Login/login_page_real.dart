@@ -1,8 +1,6 @@
 import 'package:absensimaps/animation/FadeAnimation.dart';
 import 'package:absensimaps/controller/login_func.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 
 // import 'bloc navigator/navigation_bloc.dart';
 
@@ -12,16 +10,6 @@ class LoginPageReal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            openWhatsapp(
-                context: context,
-                number: '6288226906520',
-                text:
-                    'Halo Kak, Saya Mengalami Kendala Pada Aplikasi Smart Presence');
-          },
-          child: Image.asset("assets/images/robot.png"),
-        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -145,33 +133,5 @@ class LoginPageReal extends StatelessWidget {
             ],
           ),
         ));
-  }
-}
-
-void openWhatsapp(
-    {required BuildContext context,
-    required String text,
-    required String number}) async {
-  var whatsapp = '6288226906420'; //+92xx enter like this
-  var whatsappURlAndroid = "whatsapp://send?phone=" + whatsapp + "&text=$text";
-  var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
-  if (Platform.isAndroid) {
-    // for iOS phone only
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(
-        whatsappURlAndroid,
-      ));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
-  } else {
-    // android , web
-    if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-      await launchUrl(Uri.parse(whatsappURlAndroid));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
-    }
   }
 }
